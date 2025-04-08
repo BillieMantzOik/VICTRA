@@ -1,181 +1,128 @@
-#vicentei RNA-Seq Transcript Processing Pipeline
-Overview
-This repository contains a series of bash scripts designed to process RNA-Seq transcript data for Oophaga vicentei. The scripts perform transcript assembly, quantification, and post-processing using tools like SOAPdenovo, OASES, SPADES, Trinity, Idba, Kallisto, and EvidentialGene.
+# RNA-Seq Transcript Processing Pipeline
+**Overview**
+This repository contains a series of bash scripts designed to process RNA-Seq transcript data for *Oophaga vicentei*. The scripts perform transcript assembly, quantification, and post-processing using tools like SOAPdenovo, OASES, SPADES, Trinity, Idba, Kallisto, and EvidentialGene.
 
-Table of Contents
-Introduction
-
-System Requirements
-
-Installation
-
-Pipeline Workflow
-
-Script Details
-
-Running the Pipeline
-
-Troubleshooting
-
-Contact
-
-Introduction
+## Introduction
 The goal of this pipeline is to take raw RNA-Seq data (FASTQ files), assemble transcripts from multiple methods (SOAPdenovo, OASES, SPADES, Trinity, Idba), and run downstream analyses such as transcript quantification (using Kallisto) and annotation using EvidentialGene.
 
-Key Features:
-Multi-assembler processing using SOAPdenovo, OASES, SPADES, Trinity, and Idba.
-
+**Key Features:**
+Pre-processing of raw RNA-reads using FASTP and rcorrector.
+Kraken2 classification of RNA-reads.
+Multi-assembler processing for *de-novo* transcriptome assembly using SOAPdenovo, OASES, SPADES, Trinity, and Idba.
+Building consensus transcsriptome collection using EvidentialGene.
 Transcript quantification with Kallisto.
 
-Post-processing of the transcript data using EvidentialGene.
-
-Parallelized computations to speed up the process.
-
-System Requirements
+**System Requirements**
 This pipeline was developed to run on high-performance computing (HPC) environments using SLURM job scheduler. The following are the primary software dependencies:
-
 SLURM: For job scheduling.
-
 Bash: For scripting.
 
-Modules: Used for loading necessary environments (e.g., impi/2019.5, gcc, hdf5-parallel).
+## **Steps and softwares used**
+## 1. Preprocessing
+**1. preprocess.sh**
+Software Requirements:
+fastp: A fast all-in-one preprocessing tool for FASTQ files. Used for adapter trimming and quality filtering.
+Rcorrector: A k-mer-based error correction tool for Illumina RNA-seq reads.
+perl: Required to run the run_rcorrector.pl script.
+Sample Sheet (samplesheet.txt): A tab-delimited file with the following columns:
+Sample name  Path to Read 1 (R1)  Path to Read 2 (R2)
 
-SOAPdenovo: For transcript assembly.
+Example samplesheet.txt:
+`pgsql
+Copy
+Edit
+sample1	/path/to/sample1_R1.fastq.gz	/path/to/sample1_R2.fastq.gz
+sample2	/path/to/sample2_R1.fastq.gz	/path/to/sample2_R2.fastq.gz`
+**Description:**
+This script performs the preprocessing of RNA-seq data. It trims adapters, removes low-quality reads, and corrects sequencing errors using fastp and Rcorrector.
 
-OASES: For transcript assembly.
+## 2. Kraken2 classification
+**2_kraken2_classification.sh**
+**Description:**
+This script performs taxonomic classification of RNA-seq reads using Kraken2. It classifies the sequence data into taxonomic categories based on Kraken2's reference databases.
+Software Requirements:
+Kraken2: A taxonomic classification tool for sequence reads.
+Krakendb: A Kraken2 database containing the required reference data for taxonomic classification.
+Sample Sheet (samplesheet.txt): The sample sheet file is in the same format as the previous script.
 
-SPADES: For transcript assembly.
 
-Trinity: For transcript assembly.
+## 3. Concatennation and normalization
+**3_concatennation_and_normalization.sh**
+**Description:**
+This script concatenates RNA-seq paired-end files and normalizes the reads using BBNorm. It is crucial for ensuring that read counts across samples are comparable.
+BBNorm: Used for normalization of reads. bbmap is used in the script.
+java: bbnorm requires a Java runtime.
+samplesheet:
+Example
+`CAL	CAL_R1.unclassified.R_1.trim.cor.fq.gz	CAL_R2.unclassified.R_2.trim.cor.fq.gz
+EMP	EMP_R1.unclassified.R_1.trim.cor.fq.gz	EMP_R2.unclassified.R_2.trim.cor.fq.gz
+CEI	CEI_R1.unclassified.R_1.trim.cor.fq.gz	CEI_R2.unclassified.R_2.trim.cor.fq.gz
+LOM	LOM_R1.unclassified.R_1.trim.cor.fq.gz	LOM_R2.unclassified.R_2.trim.cor.fq.gz
+`
 
-Idba: For transcript assembly.
+## 4. rRNA removal
+**4_rrna_removal.sh**
+**Description:**
+This script removes ribosomal RNA (rRNA) contamination from RNA-seq data. SortMeRNA is used to filter out rRNA sequences, ensuring that only the non-rRNA portions of the transcriptome are analyzed.
+SortMeRNA: Tool for removing rRNA contamination from RNA-seq data.
 
+## 5-9. Transcriptome assembly via 5 assemblers
+
+**5_trassembly_trinity.sh**
+**Description:**
+This script assembles RNA-seq data into transcripts using Trinity. It is used for assembling transcriptomes when a reference genome is not available.
+
+Trinity:A de novo transcriptome assembly tool.
+
+**6_trassembly_rnaspades.sh**
+**Description:**
+This script assembles RNA-seq data into transcripts using RNAspades.
+
+python: required to run rnaspades.py
+rnaspades: Trnascriptome assembly
+
+**7_trassembly_soap.sh**
+**Description:**
+This script assembles RNA-seq data into transcripts using SOAP-denovo.
+SOAPdenovo: Transcriptome assembly.
+
+**8_trassembly_velvethoases.sh**
+**Description:**
+This script assembles RNA-seq data into transcripts using velveth-oases.
+velveth-oases: transcriptome assembly.
+
+**9_trassembly_idba.sh**
+**Description:**
+This script assembles RNA-seq data into transcripts using IDBA.
+idba: transcriptome assembly.
+
+## 6. Consensus assembly using evigene
+**10_consensusaseembly_EG.sh**
+**Description:**
+This script performs consensus assembly and gene assembly using EvidentialGene. It generates a more refined and accurate set of gene models from RNA-seq data.
+SeqKit: toolkit for FASTA/Q file manipulation.
+EvidentialGene: evigene software for gene assembly.
+
+## 7. Quantification
+**11_quantification.sh**
+**Description:**
+This script quantifies gene expression using Kallisto. It processes RNA-seq data and outputs gene expression levels for downstream analysis.
 Kallisto: For transcript quantification.
 
-EvidentialGene: For transcript post-processing and annotation.
+## 8. Limma analysis for DGE
+**12_limma_analysis.R**
+**Description:**
+This R script performs differential gene expression (DGE) analysis using the limma package. It processes transcript quantification results from Kallisto, annotated transcripts fro entap, and identifies differentially expressed genes.
 
-Installation
-Ensure that the required software and modules are available on your system before running this pipeline. You may need to load specific modules in your environment using the module load command. Additionally, you may need to adjust paths based on where the software is installed on your system.
+R: Required to run the limma analysis script.
+tidyverse, tximport, readr, tximportData, dplyr, edgeR, limma, DESeq2: Required R libraries for differential gene expression analysis.
+transcript_to_gene_map.csv: A file containing Entap annotation results mapping transcripts to genes.
+abundance.tsv: A file containing Kallisto quantification results per sample.
 
-The scripts in this pipeline expect certain directory structures. Here’s an example setup:
+## 9. WGCNA Analysis for Skin and Liver Samples of *O. vicentei*
+**13_WGCNA_skin.R and 14_WGCN_liver.R**
+These scripts perform a Weighted Gene Co-expression Network Analysis (WGCNA) on skin (13_WGCNA_skin.R) and liver (14_WGCNA_liver.R) transcriptomic data for *O. vicentei*. The analysis identifies co-expression modules, correlates them with relevant traits, and identifies hub genes for further investigation. The results are exported for downstream analyses and visualization in tools like Cytoscape.
 
-bash
-Copy
-Edit
-/scratch/emmy/projects/nib00033/preprocess/vicentei/       # Input reads directory
-/scratch/projects/nib00033/vicentei/assemblies/              # Assemblies output directory
-/home/nibvasmo/array_samplesheets/vicentei/vicentei_assembly.txt  # Samplesheet
-Pipeline Workflow
-The pipeline involves several key steps:
-
-Transcript Assembly:
-
-SOAPdenovo, OASES, SPADES, Trinity, and Idba are used for transcript assembly.
-
-Each assembly method generates transcript files that are then processed and cleaned.
-
-Transcript Quantification:
-
-Kallisto is used to quantify the assembled transcripts based on a reference transcriptome.
-
-Post-Processing with EvidentialGene:
-
-The transcript files are processed using EvidentialGene's tr2aacds4.pl to clean, filter, and annotate them.
-
-Script Details
-Main Scripts
-vicentei-soap.sh:
-
-Runs SOAPdenovo for transcript assembly.
-
-Parallelizes jobs based on different k-mer values.
-
-Processes multiple locations (e.g., LOM, EMP, CEI, CAL).
-
-Outputs assembled transcripts for each locality.
-
-vicentei-oa.sh:
-
-Runs the OASES assembler for transcript assembly.
-
-Outputs assembled transcripts for each locality.
-
-vicentei-idba.sh:
-
-Runs the Idba-Tran assembler for transcript assembly.
-
-Merges paired-end reads and runs the assembly.
-
-Outputs assembled transcripts for each locality.
-
-vicentei-kallisto.sh:
-
-Runs Kallisto for transcript quantification.
-
-Uses the reference transcriptome to generate pseudo-quantifications.
-
-Outputs the results for each sample.
-
-vicentei-evigene.sh:
-
-Runs EvidentialGene's tr2aacds4.pl script for transcript post-processing.
-
-Generates a final processed transcript collection.
-
-Running the Pipeline
-Step 1: Set Up Your Environment
-Load the necessary modules: The pipeline relies on specific software modules such as impi, gcc, and hdf5-parallel. Ensure that they are available on your system.
-
-Prepare input data:
-
-Ensure your input RNA-Seq FASTQ files are placed in the correct directory (/scratch-emmy/projects/nib00033/preprocess/vicentei/).
-
-Ensure your sample sheet is located at /home/nibvasmo/array_samplesheets/vicentei/vicentei_assembly.txt.
-
-Directory structure:
-
-Make sure the pipeline's output directories exist, or modify the script to create them.
-
-Step 2: Submit Jobs
-To run the pipeline, submit the SLURM jobs for each script:
-
-For SOAPdenovo assembly:
-
-bash
-Copy
-Edit
-sbatch vicentei-soap.sh
-For OASES assembly:
-
-bash
-Copy
-Edit
-sbatch vicentei-oa.sh
-For Idba assembly:
-
-bash
-Copy
-Edit
-sbatch vicentei-idba.sh
-For Kallisto quantification:
-
-bash
-Copy
-Edit
-sbatch vicentei-kallisto.sh
-For EvidentialGene post-processing:
-
-bash
-Copy
-Edit
-sbatch vicentei-evigene.sh
-Step 3: Monitor Progress
-Monitor the progress of each SLURM job by checking the SLURM output files in the /home/nibvasmo/scripts/slurmOut/ directory. These files are generated with the job ID and script name in their filenames.
-
-Example:
-
-bash
-Copy
-Edit
-/home/nibvasmo/scripts/slurmOut/slurm-vicentei-soap-12345.out
-You will receive an email when the job starts and finishes if you have specified the correct email address.
+R: Required to run WGCNA analysis
+Required R packages:
+`WGCNA`, `dplyr`, `tidyverse`, `ggplot2`, `knitr`
