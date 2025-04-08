@@ -10,15 +10,11 @@
 # Last Updated: 2025-04-04
 # HPC cluster: NHR-NORD@Göttingen system “Emmy”
 
-#SBATCH --job-name=preprocess_reads
 #SBATCH --nodes=2
 #SBATCH --ntasks=88
 #SBATCH --ntasks-per-node=44
 #SBATCH --cpus-per-task=4
 #SBATCH --array=1-44					   	 # Job array for parallel processing of 44 samples
-#SBATCH --time=12:00:00
-#SBATCH -p standard                          # Replace with your HPC partition
-#SBATCH --output=slurm_output/slurm-%x-%A_%a.out
 
 # -------------------- CONFIGURABLE PARAMETERS --------------------
 
