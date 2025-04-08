@@ -1,5 +1,5 @@
 # RNA-Seq Transcript Processing Pipeline
-**Overview**
+**Overview:**
 This repository contains a series of bash scripts designed to process RNA-Seq transcript data for *Oophaga vicentei*. The scripts perform transcript assembly, quantification, and post-processing using tools like SOAPdenovo, OASES, SPADES, Trinity, Idba, Kallisto, and EvidentialGene.
 
 ## Introduction
@@ -12,7 +12,7 @@ Multi-assembler processing for *de-novo* transcriptome assembly using SOAPdenovo
 Building consensus transcsriptome collection using EvidentialGene.
 Transcript quantification with Kallisto.
 
-**System Requirements**
+**System Requirements:**
 This pipeline was developed to run on high-performance computing (HPC) environments using SLURM job scheduler. The following are the primary software dependencies:
 SLURM: For job scheduling.
 Bash: For scripting.
@@ -28,11 +28,7 @@ Sample Sheet (samplesheet.txt): A tab-delimited file with the following columns:
 Sample name  Path to Read 1 (R1)  Path to Read 2 (R2)
 
 Example samplesheet.txt:
-`pgsql
-Copy
-Edit
-sample1	/path/to/sample1_R1.fastq.gz	/path/to/sample1_R2.fastq.gz
-sample2	/path/to/sample2_R1.fastq.gz	/path/to/sample2_R2.fastq.gz`
+`sample1	/path/to/sample1_R1.fastq.gz	/path/to/sample1_R2.fastq.gz sample2	/path/to/sample2_R1.fastq.gz	/path/to/sample2_R2.fastq.gz`
 **Description:**
 This script performs the preprocessing of RNA-seq data. It trims adapters, removes low-quality reads, and corrects sequencing errors using fastp and Rcorrector.
 
