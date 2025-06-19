@@ -3,7 +3,7 @@
 # SLURM batch script to normalize paired-end reads using BBNorm, with optional concatenation step.
 # Designed for HPC environments with SLURM workload manager.
 # Author: Vasiliki Mantzana Oikonomaki
-# License: MIT
+# License: GNU
 # Last Updated: 2025-04-04
 
 #SBATCH --job-name=bbnorm_with_concatenation
