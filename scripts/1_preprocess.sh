@@ -6,7 +6,7 @@
 # Customize paths, modules, and resource allocations as needed.
 #
 # Author: Vasiliki Mantzana Oikonomaki
-# License: MIT
+# License: GNU
 # Last Updated: 2025-04-04
 # HPC cluster: NHR-NORD@Göttingen system “Emmy”
 
@@ -18,10 +18,10 @@
 
 # -------------------- CONFIGURABLE PARAMETERS --------------------
 
-# Set these environment variables before running or replace with hardcoded paths
-READS_DIR="${READS_DIR:-/path/to/reads}"
-SAMPLESHEET="${SAMPLESHEET:-samplesheet.txt}"
-OUTPUT_DIR="${OUTPUT_DIR:-./preprocessed}"
+# Set these environment variables before running and replace with path
+READS_DIR="${READS_DIR:-/path/to/reads}" # raw reads directory
+SAMPLESHEET="${SAMPLESHEET:-samplesheet_raw.txt}" # samplesheet containing sample name and path
+OUTPUT_DIR="${OUTPUT_DIR:-./preprocessed}" # directory for output
 THREADS="${THREADS:-176}"
 
 # Load required modules (adapt based on your environment)
