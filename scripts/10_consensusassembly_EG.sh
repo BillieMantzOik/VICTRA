@@ -3,7 +3,7 @@
 # SLURM batch script for RNA-Seq transcript processing with EvidentialGene.
 # This script processes various transcript assemblies using EvidentialGene's tools.
 # Author: Vasiliki Mantzana Oikonomaki
-# License: MIT
+# License: GNU
 # Last Updated: 2025-04-04
 
 # -------------------- CONFIGURABLE VARIABLES --------------------
