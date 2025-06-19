@@ -3,7 +3,7 @@
 # SLURM batch script for transcriptome assembly using IDBA-UD for different localities.
 # Designed for HPC environments with SLURM workload manager.
 # Author: Vasiliki Mantzana Oikonomaki
-# License: MIT
+# License: GNU
 # Last Updated: 2025-04-04
 
 # -------------------- CONFIGURABLE VARIABLES --------------------
