@@ -4,7 +4,7 @@
 # Designed for use on HPC clusters using SLURM job scheduler.
 # Designed for preprocessed O. vicentei RNA sequence reads, provided at SRA bioproject PRJNA1234489.
 # Author: Vasiliki Mantzana Oikonomaki
-# License: MIT
+# License: GNU
 # Last Updated: 2025-04-04
 
 #SBATCH --job-name=kraken2_classification
@@ -28,10 +28,10 @@ export OMP_NUM_THREADS=40
 # -------------------- CONFIGURABLE VARIABLES --------------------
 
 # Input and output directories (can be passed via environment variables)
-READS_DIR="${READS_DIR:-/path/to/corrected_reads}"
-KRAKENDB="${KRAKENDB:-/path/to/kraken2_db}"
+READS_DIR="${READS_DIR:-/path/to/preprocessed_reads}" # reads after preprocess
+KRAKENDB="${KRAKENDB:-/path/to/kraken2_db}" # krakendb
 WORKDIR="${WORKDIR:-/path/to/working_dir}"
-SAMPLESHEET="${SAMPLESHEET:-samplesheet_kraken.txt}"
+SAMPLESHEET="${SAMPLESHEET:-samplesheet_kraken.txt}"  # txt file containing sample names and path of r1 r2 after preprocessing step.
 
 # Move to working directory
 cd "$WORKDIR" || { echo "WORKDIR not found: $WORKDIR"; exit 1; }
