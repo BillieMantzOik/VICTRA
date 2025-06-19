@@ -21,3 +21,5 @@ samplesheet_kraken.txt: txt file containing sample names and path to r1 r2 for p
 samplesheet_norm.txt: txt file containing sample names and path to r1 r2 for concatenated reads per locality
 
 samplesheet_sort.txt: txt file containing sample names and path to r1 r2 for concatenated reads per locality
+
+vicentei_assembly.txt: txt file containing sample names and path to r1 r2 for rrnafiltered reads per locality
