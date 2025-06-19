@@ -1,0 +1,4 @@
+CEI	/scratch-emmy/projects/nib00033/preprocess/vicentei/CEI.trim.cor.norm.fq.gz.rRNAfiltered_fwd.fq /scratch-emmy/projects/nib00033/preprocess/vicentei/CEI.trim.cor.norm.fq.gz.rRNAfiltered_rev.fq
+LOM	/scratch-emmy/projects/nib00033/preprocess/vicentei/LOM.trim.cor.norm.fq.gz.rRNAfiltered_fwd.fq /scratch-emmy/projects/nib00033/preprocess/vicentei/LOM.trim.cor.norm.fq.gz.rRNAfiltered_rev.fq
+EMP	/scratch-emmy/projects/nib00033/preprocess/vicentei/EMP.trim.cor.norm.fq.gz.rRNAfiltered_fwd.fq /scratch-emmy/projects/nib00033/preprocess/vicentei/EMP.trim.cor.norm.fq.gz.rRNAfiltered_rev.fq
+CAL	/scratch-emmy/projects/nib00033/preprocess/vicentei/CAL.trim.cor.norm.fq.gz.rRNAfiltered_fwd.fq /scratch-emmy/projects/nib00033/preprocess/vicentei/CAL.trim.cor.norm.fq.gz.rRNAfiltered_rev.fq
