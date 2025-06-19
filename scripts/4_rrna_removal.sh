@@ -3,7 +3,7 @@
 # SLURM batch script to remove rRNA contamination from paired-end reads using SortMeRNA.
 # Designed for HPC environments with SLURM workload manager.
 # Author: Vasiliki Mantzana Oikonomaki
-# License: MIT
+# License: GNU
 # Last Updated: 2024-04-04
 
 # -------------------- ENVIRONMENT SETUP --------------------
@@ -11,9 +11,9 @@ source ~/.bashrc
 # -------------------- CONFIGURABLE VARIABLES --------------------
 
 # Define directories
-READS_DIR="${READS_DIR:-/path/to/concatenated_reads}"  # Adjust this path as needed
+READS_DIR="${READS_DIR:-/path/to/concatenated_reads}" 
 WORKDIR="${WORKDIR:-/path/to/sortme}"
-SAMPLESHEET="${SAMPLESHEET:-samplesheet_sort.txt}"  # Replace with your actual sample sheet
+SAMPLESHEET="${SAMPLESHEET:-samplesheet_sort.txt}" 
 
 # Navigate to working directory
 cd "$WORKDIR" || { echo "WORKDIR not found: $WORKDIR"; exit 1; }
