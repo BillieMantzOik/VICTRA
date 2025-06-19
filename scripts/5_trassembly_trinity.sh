@@ -3,7 +3,7 @@
 # SLURM batch script for transcriptome assembly using Trinity for different localities.
 # Designed for HPC environments with SLURM workload manager.
 # Author: Vasiliki Mantzana Oikonomaki
-# License: MIT
+# License: GNU
 # Last Updated: 2024-04-04
 
 # -------------------- ENVIRONMENT SETUP --------------------
