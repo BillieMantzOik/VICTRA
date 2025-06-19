@@ -3,7 +3,7 @@
 # SLURM batch script for RNA-Seq quantification using Kallisto.
 # This script performs pseudo-quantification of RNA-Seq samples using Kallisto.
 # Author: Vasiliki Mantzana Oikonomaki
-# License: MIT
+# License: GNU
 # Last Updated: 2025-04-04
 
 # -------------------- CONFIGURABLE VARIABLES --------------------
